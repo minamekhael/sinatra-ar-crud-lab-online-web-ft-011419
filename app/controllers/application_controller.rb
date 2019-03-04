@@ -6,53 +6,50 @@ class ApplicationController < Sinatra::Base
     set :public_folder, 'public'
     set :views, 'app/views'
   end
-
-    get '/' do
-    redirect to "/articles"
-  end	
-
-   get '/articles/new' do
-  	erb :new
+  
+  get '/' do
+    erb :index
   end
+  
+    get '/articles/new' do
 
-   post '/articles' do
-  	Article.create(params)
+     erb :new 
+  end 
 
-   	redirect "/articles/#{Article.last[:id]}"
-  end
+   post '/articles' do 
+
+     @article1 = Article.create(params)
+
+      redirect to "/articles/#{@article1.id}"
+
+   end 
+
+   get '/articles/:id' do 
+    @article = Article.find_by(id: params[:id])
+    erb :show 
+  end 
 
    get '/articles' do
-  	@articles = Article.all
-
-   	erb :index
+    @articles = Article.all
+    erb :index
   end
 
-   get '/articles/:id' do
-  	@article = Article.find(params[:id])
+   get '/articles/:id/edit' do 
+    @article2 = Article.find_by(id: params[:id])
+    erb :edit 
+  end 
 
-   	erb :show
-  end
-
-  get '/articles/:id/edit' do  #load edit form
-    @article = Article.find_by_id(params[:id])
-    erb :edit
-  end
-
-   patch '/articles/:id' do
-  	@article = Article.find(params[:id])
-  	@article.title = params[:title]
-  	@article.content = params[:content]
-  	@article.save
-
-   	redirect to "/articles/#{@article.id}"
-  end
+   patch '/articles/:id' do 
+    @article3 = Article.find_by(id: params[:id])
+    @article3.title = params[:title]
+    @article3.content = params[:content]
+    @article3.save
+    erb :show
+  end 
 
    delete '/articles/:id' do
-  	@article = Article.find(params[:id])
-  	Article.delete(@article.id)
-
-   	@articles = Article.all
-  	erb :index
+    @article4 = Article.find_by(id: params[:id])
+    @article4.delete 
   end
 
- end	
+ end
