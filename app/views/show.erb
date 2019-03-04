@@ -1,5 +1,8 @@
-<form action="/articles" method="POST">
-	<p>Title: <label for="title"><input type="text" name="title" id="title"></label></p>
-	<p>Content: <label for="content"><input type="text" name="content" id="content"></label></p>
-	<p><input type="submit" id="submit"></p>
-</form> 
+<body>
+  <h1><%= @article.title %></h1>
+  <p><%= @article.content %></p>
+  <form action="/articles/<%= @article.id%>" method="post">
+  <button type="submit" value = "delete"></buttontype>Delete All</button>
+  <input id="hidden" type="hidden" name="_method" value="DELETE">
+  </form>
+</body>
